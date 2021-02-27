@@ -15,8 +15,8 @@ Explanation: The longest substring is "ababb", as 'a' is repeated 2 times and 'b
 
 //we need use hashmap to get the frequency of occurrence about this String.
 //So we can find that which character is not repeated k times or less than k times.
-//As a useless character we can throw it away by some ways. 
-//And then if  we have already cut it off the useless parts,we would get some parts.
+//As for a useless character we can throw it away by some ways. 
+//And then if  we have already cut it off the useless parts,we would get some shorter String so that we can hava a array to fill all of them.
 //for instance if the k euqals to 2,and the string is 'bbaaadb'
 //we can throw d,so we can get bbaaa and b
 //after doing these things, we can repeat by using recursion until we couldn't find any useless charater which is repeated less than k times.
