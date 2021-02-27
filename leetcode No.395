@@ -1,0 +1,57 @@
+Given a string s and an integer k, return the length of the longest substring of s such that the frequency of each character in this substring is greater than or equal to k.
+
+RESOURCE：力扣（LeetCode）
+LINK：https://leetcode-cn.com/problems/longest-substring-with-at-least-k-repeating-characters
+Example 1:
+
+Input: s = "aaabb", k = 3
+Output: 3
+Explanation: The longest substring is "aaa", as 'a' is repeated 3 times.
+Example 2:
+
+Input: s = "ababbc", k = 2
+Output: 5
+Explanation: The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
+
+//we need use hashmap to get the frequency of occurrence about this String.
+//So we can find that which character is not repeated k times or less than k times.
+//As a useless character we can throw it away by some ways. 
+//And then if  we have already cut it off the useless parts,we would get some parts.
+//for instance if the k euqals to 2,and the string is 'bbaaadb'
+//we can throw d,so we can get bbaaa and b
+//after doing these things, we can repeat by using recursion until we couldn't find any useless charater which is repeated less than k times.
+//as the example above, b is not suit for the condition  we need,it will be throwed away. and as for bbaaa , there is no ways to split it,so the length of it is the answer.
+
+class Solution {
+   public int longestSubstring(String s, int k) {
+            if (s==null||s.length()==0)
+            {
+                return 0;
+            }
+
+            Map<Character,Integer>map=new HashMap<Character, Integer>();
+            for(int i=0;i<s.length();i++)
+            {
+                map.put(s.charAt(i),map.getOrDefault(s.charAt(i),0)+1);
+
+            }
+            StringBuilder stringBuilder=new StringBuilder(s);
+             for (int i=0;i<s.length();i++)
+             {
+                 if (k>map.get(s.charAt(i)))
+                 {
+                     stringBuilder.setCharAt(i,'!');
+                 }
+             }
+            String[] split = stringBuilder.toString().split("!");
+            if (split.length==1)
+            {
+                return  split[0].length();
+            }
+         int max=0;
+            for (String s1:split) {
+                max=Math.max(max,longestSubstring(s1,k));
+            }
+            return  max;
+        }
+    }
