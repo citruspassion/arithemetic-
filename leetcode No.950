@@ -1,0 +1,77 @@
+In a deck of cards, every card has a unique integer.  You can order the deck in any order you want.
+
+Initially, all the cards start face down (unrevealed) in one deck.
+
+Now, you do the following steps repeatedly, until all cards are revealed:
+
+Take the top card of the deck, reveal it, and take it out of the deck.
+If there are still cards in the deck, put the next top card of the deck at the bottom of the deck.
+If there are still unrevealed cards, go back to step 1.  Otherwise, stop.
+Return an ordering of the deck that would reveal the cards in increasing order.
+
+The first entry in the answer is considered to be the top of the deck.
+
+ 
+
+Example 1:
+
+Input: [17,13,11,2,3,5,7]
+Output: [2,13,3,11,5,17,7]
+Explanation: 
+We get the deck in the order [17,13,11,2,3,5,7] (this order doesn't matter), and reorder it.
+After reordering, the deck starts as [2,13,3,11,5,17,7], where 2 is the top of the deck.
+We reveal 2, and move 13 to the bottom.  The deck is now [3,11,5,17,7,13].
+We reveal 3, and move 11 to the bottom.  The deck is now [5,17,7,13,11].
+We reveal 5, and move 17 to the bottom.  The deck is now [7,13,11,17].
+We reveal 7, and move 13 to the bottom.  The deck is now [11,17,13].
+We reveal 11, and move 17 to the bottom.  The deck is now [13,17].
+We reveal 13, and move 17 to the bottom.  The deck is now [17].
+We reveal 17.
+Since all the cards revealed are in increasing order, the answer is correct.
+
+我们需要先把这个数组排序了，之后我们会得到一个
+[2,3,5,7,11,13,17]
+然后我们将他的元素逐一添加进list里面
+第一步：将17加进来 --17
+第二步：13加进来，将17移到13前面 --17 13
+第三步：11加进来 ，13移到头部 --13 11 17
+第四步：7加进来 ，17移动到头部--17 7 13 11
+第五步：5加进来 ，11移动到头部--11 5 17 7 13
+第六步：3加进来 ，13移动到头部--13 3 11 5 17 7
+第七步：2加进来 --2 13 3 11 3 17 7
+按照如上所说，我们需要注意，再遍历循环的时候，第一步由于只有一个元素，所以没有交换必要
+由于我们将某元素移到头部，剩下的元素会自动向右移，这也就不需要我们自己操作了
+最后，最后一个元素，也就是2，即i=0的时候，只需要将他加入list就行
+不需要移动，因为最先开牌的就是最小的数
+
+
+
+class Solution {
+    public int[] deckRevealedIncreasing(int[] deck) {
+        Arrays.sort(deck);
+ LinkedList<Integer>list=new LinkedList<Integer>();
+
+        for (int i = deck.length-1; i >=0; i--) {   //倒序来实现最大的先加入
+            if (i==deck.length-1) {   //这时候只有一个元素，不用移动
+                list.addFirst(deck[i]);
+            }else if(i==0) {
+                list.addFirst(deck[i]);  //也就是最后一个2加入，所以只用加入就行，
+            }else {
+                list.addFirst(deck[i]);//一般情况：也就是需要将元素加入头，并将末尾的移动到头
+                list.addFirst(list.getLast());//但是移动归移动
+                list.removeLast();//总得把原有的坑给去掉了 比如13 17-移动后 17 13 17 需要多余的17去掉
+
+            }
+        }
+         int[] touan = new int[deck.length];
+        for(int i = 0; i < deck.length; i++){
+            touan[i] = list.pollFirst();
+        }
+        return touan;
+
+    }
+}
+
+
+链接：https://leetcode-cn.com/problems/reveal-cards-in-increasing-order/solution/da-bai-hua-li-zi-wan-zheng-mo-ni-zheng-g-luu3/
+来源：力扣（LeetCode）
