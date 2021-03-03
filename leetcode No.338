@@ -1,0 +1,35 @@
+Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+
+Example 1:
+
+Input: 2
+Output: [0,1,1]
+Example 2:
+
+Input: 5
+Output: [0,1,1,2,1,2]
+
+origin：力扣（LeetCode）
+link：https://leetcode-cn.com/problems/counting-bits
+
+we enum some numbers as examples to help us to explain this question .
+like 2 -10   4-100  8-1000
+apparently,these numbers are all of even numbers.we can fing that even we cut the rightmost 0 off , we couldn't change the truth  of  the  invariable amounts of  number 1.
+and for  5-101
+we can also find that 101=100+1,so if we want to move the rightmost number of a odd number ,we need plus one to  ensure the amounts of number 1 couldn't be changed.
+and we also need know that  if a is an even number ,a&1==0  and if a is an odd number ,a&1==1
+
+
+
+
+class Solution {
+    public int[] countBits(int num) {
+      int dp=new int[num+1];
+     for(int i=1;i<=num;i++)
+     {
+     dp[i]=dp[i>>1]+(i&1);
+     }
+     return dp;
+    }
+    
+   }
