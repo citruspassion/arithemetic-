@@ -1,0 +1,67 @@
+int array=new int[]{1,3,5,7,9};
+int tree;
+public void creatTree()
+{   
+    tree=new int[countlength(array.lerngth)];
+}
+
+public int countlength(int num)
+{
+for(int i=1; ;i<<=1)
+{
+if(i>=num)
+{
+  return 2*i-1;
+}
+}
+public void update(int start, int end, int index, int newIndex, int val){
+	
+    if(start == end){
+        tree[index] = array[newIndex] = val;
+    }else{
+        int mid = (start + end) / 2;
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+       
+        if(newIndex <= mid){
+            update(start, mid, left, newIndex, val);
+        }else{
+            update(mid+1, end, right, newIndex, val);
+        }
+      
+        tree[index] = tree[left] + tree[right];
+    }
+}
+
+public  void    create(int start ,int end ,int index)
+{
+        if(start==end)
+        {
+         tree[index]=arr[start];
+        
+        }else{
+        int mid=(start+end)/2;
+        int left=2*index+1;
+        int right=2*index+2;
+        create(start,mid,left);
+        create(mid+1.end,right);
+        tree[index]=tree[left]+tree[right];
+        
+        
+        
+}
+
+public int sum(int start, int end,int index,int from,int to)   //from to 是要查询的区间  比如2，4     2，2 3，4的和即使答案   1,1 5,5就显然不合适
+{
+
+    if(start>to||end<start)
+    { return 0;
+    }
+    if(from<=start&&to>=end)
+    { return tree[index];
+    }
+     int mid=(start+end)/2;
+        int left=2*index+1;
+        int right=2*index+2;
+        return sum(start,mid,left,from,to)+sum(mid+1,end,right,from,to);
+}
