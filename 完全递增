@@ -38,7 +38,7 @@ public int lengthOfLIS(int [] nums)
     {
       if（arr[len]<nums[i]）
       {
-         arr[len++]=nums[i];
+         arr[++len]=nums[i];
       }else{
            int l=0;  
            int r=len; 
