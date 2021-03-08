@@ -1,0 +1,26 @@
+约瑟夫环
+就是有好多人决定自杀，他们排成队列。从第一个报数，数到3的要去死，然后重新数，结果最后约瑟夫活了下来。
+
+public void ysCircle(int peopleNum,int count){
+        ArrayList<Integer>list=new ArrayList<Integer>();
+        for (int i = 1; i <=peopleNum ; i++) {
+            list.add(i);
+        }
+        int k=0;
+        while (list.size()>0){
+            k+=count;
+            k=k%list.size()-1;
+            //比如数3，第三个人要被杀，那么在队从0开始应该是索引爹日个被杀
+            if (k<0)
+            {
+                //k<0也就是到了队尾，一般k%size，k都是小的，所以等于没%，但是当他俩相同时会出现0,0-1等于-1,
+                //也就是现在到了队尾了
+                System.out.println(list.get(list.size()-1));
+                list.remove(list.size()-1);
+                k=0;//重新数
+            }else{
+                System.out.println(list.get(k));
+                list.remove(k);
+            }
+        }
+    }
