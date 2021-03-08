@@ -1,0 +1,45 @@
+和前文一样，我们需要一个boolean装是否可以
+比如这个就需要一个二维数组装i到j是否是回文串
+public class Solution {
+
+    public List<List<String>> partition(String s) {
+        int len = s.length();
+        List<List<String>> res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+        boolean dp[][]=new boolean[len][len];
+        Deque<String> deque=new Deque<>();
+         for (int i = 0; i < n; i++) {
+            dp[i][i]=true;
+        }
+        for (int j = 1; j < n; j++) {  //j=1是为了找第一位，最左端和最右端要差个1
+            for (int i = 0; i <j ; i++) {
+                if (s.charAt(i)==s.charAt(j))
+                {
+                    dp[i][j]=j-i<3?true:dp[i+1][j-1];
+                    //假如相等，如果abca这种就算不是j-i<3，j-i<3为了找aba这种，相同就会ture
+                    //否则要继续进位比较
+                }else{
+                    dp[i][j]=false;
+                }
+            }
+        }
+         dfs(s, 0, len, dp, deque, res);
+        return res;
+    
+        
+   }
+   private void dfs(String s, int depth, int len, boolean[][] dp, Deque<String> path, List<List<String>> res){
+   if(depth==len)
+   {
+    res.add(new ArrayList(path));
+    return;
+    }
+   for(int i=index)
+   
+   
+   }
+
+}
+
