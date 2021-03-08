@@ -1,0 +1,66 @@
+1，2，3错乱顺序的三个数，有多少种可能
+public class solution{
+   pubic List<List<Integer>>  premute(int []nums)
+   {
+   int n=nums.length;
+  
+   List<List<Inteher>>list =new ArrayList<>();
+   if(n==0)
+   {
+   return list;
+   }
+    boolean []isTrue=new boolean[n];
+    Deque<Integer>deque=new Deque<Integer>();
+    int depth=0;
+    dfs(nums,n,depth,list,deque,isTrue);
+   
+   private void dfs(int nums[],int len,int depth, List<List<Inteher>>list ,  Deque<Integer>deque,  boolean []isTrue)
+   {
+      if(depth==len)
+      {
+      list.add(new ArrayList<>(deque));
+      return;
+       }
+       for(int i=0;i<len;i++)
+     {
+       if(!isTrue[i])
+       {
+         deque.addLast(nums[i]);        //第一次加入1，将【0】改为true,进入递归，还是i=0，但是【0】是false无法进入if里面，只能i++；故第二次加上了【1】,加入了2，将【1】改成true，
+                                        //再次进入递归，直到==len,这时list里装了123，紧接着就是执行后面的语句123，3将被删除,由于这时i=2，直接跳出for，这一层的
+                                        任务已经结束了，跳出一层递归，然后来到上一层递归
+                                        再次去掉2，，去掉2不能结束，因为这时候i=1，我们得接着执行for,并加入了3.然后再次进入递归,由于我们的【0】还都是true,所以
+len                                        一直for i=1的时候才进if循环，所以加入2，进入递归然后由于depth等于len，所以返回了1，3，2
+                                       
+         isTrue[i]=true;
+          System.out.println("before");
+            dfs(nums, len, depth+1, list, deque, isTrue);
+
+                     isTrue[i]=false;
+                 deque.removeLast();
+                  System.out.println("after");
+         
+         
+         
+         
+         
+         }
+            }
+   
+   
+   
+   
+   }
+   
+   
+   
+   
+   }
+
+
+
+
+
+
+
+
+}
