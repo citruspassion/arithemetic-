@@ -40,7 +40,7 @@ public class Solution {
    {
      if(dp[depth][i]){
      path.addLast（s.substring(depth,i+1)）;
-     dfs(s, depth+1, len, dp, deque, res);
+     dfs(s, i+1, len, dp, deque, res);
      path.removeLast();
      }
     }
