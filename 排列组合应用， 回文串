@@ -9,11 +9,11 @@ public class Solution {
             return res;
         }
         boolean dp[][]=new boolean[len][len];
-        Deque<String> deque=new Deque<>();
-         for (int i = 0; i < n; i++) {
+        Deque<String> deque=new ArrayDeque<>();
+         for (int i = 0; i < len; i++) {
             dp[i][i]=true;
         }
-        for (int j = 1; j < n; j++) {  //j=1是为了找第一位，最左端和最右端要差个1
+        for (int j = 1; j < len; j++) {  //j=1是为了找第一位，最左端和最右端要差个1
             for (int i = 0; i <j ; i++) {
                 if (s.charAt(i)==s.charAt(j))
                 {
@@ -36,10 +36,10 @@ public class Solution {
     res.add(new ArrayList(path));
     return;
     }
-   for(int i=index;i<len;i++)
+   for(int i=depth;i<len;i++)
    {
-     if(dp[index][i]){
-     path.addLast（s.substring(index,i+1)）;
+     if(dp[depth][i]){
+     path.addLast（s.substring(depth,i+1)）;
      dfs(s, depth+1, len, dp, deque, res);
      path.removeLast();
      }
