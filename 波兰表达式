@@ -1,0 +1,85 @@
+public class man {
+
+
+    public static void main(String[] args) {
+      Stack<Character>stack=new Stack<>();
+      StringBuilder sb=new StringBuilder();
+      char c;
+      String src="";
+        for (int i = 0; i < src.length(); i++) {
+            char temp= src.charAt(i);
+            if (Character.isDigit(temp))
+            {
+                sb.append(temp);
+            }else if (temp=='(')
+            {
+                stack.push(temp);
+            }else if (temp==')')
+            {
+                while ((c=stack.pop())!='(')
+                {
+                    sb.append(c);
+                }
+            }else{
+                while (!stack.isEmpty()&&getPriority(c=(stack.peek()))>getPriority(temp))
+                {
+                    sb.append(c);
+                    stack.pop();
+
+                }
+                stack.push(temp);
+            }
+            while (!stack.isEmpty())
+            {
+                sb.append(stack.pop());
+            }
+        }
+    }
+    public  static int getPriority(Character op){
+        switch (op){
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return 0;
+        }
+    }
+    public static Integer calNiBoLan(String str) {
+    Stack<Integer>stack=new Stack<>();
+        for (int i = 0; i < str.length(); i++) {
+            char a= str.charAt(i);
+            if (Character.isDigit(a))
+            {
+                stack.push(a-'0');
+            }else{
+                int c=stack.pop();
+                int b=stack.pop();
+                int tmp;
+                switch (a){
+                    case '+':
+                        tmp = b+c;
+                        break;
+                    case '-':
+                        tmp = b- c;
+                        break;
+                    case '*':
+                        tmp = b* c;
+                        break;
+                    case '/':
+                        tmp = b / c;
+                        break;
+                    default:
+                        tmp = 0;
+                        break;
+
+                }
+                stack.push(tmp);
+            }
+        }
+        return  stack.pop();
+    }
+
+}
