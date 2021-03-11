@@ -83,3 +83,47 @@ public class man {
     }
 
 }
+
+
+
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+         Stack<Integer>stack=new Stack<>();
+        int n=tokens.length;
+        for(int i=0;i<n;i++)
+        {
+             String s=tokens[i];
+                 int b=0;
+                 int a=0;
+                 int tmp=0;
+                 if(s.equals("+")){
+                 b=stack.pop();
+              a=stack.pop();
+                        tmp=a+b;
+                stack.push(tmp);
+                 }else if(s.equals("-")) {
+                         b=stack.pop();
+              a=stack.pop();
+                        tmp=a-b;
+                         stack.push(tmp);
+                 }else if(s.equals("*")) {
+                         b=stack.pop();
+              a=stack.pop();
+                        tmp=a*b;
+                         stack.push(tmp);
+                 }else if(s.equals("/")) {
+                         b=stack.pop();
+              a=stack.pop();
+                        tmp=a/b;
+                         stack.push(tmp);
+                 }else{
+                stack.push(Integer.parseInt(s));
+             }
+                
+             }
+             return  stack.pop();
+        }
+        
+    }
+  
