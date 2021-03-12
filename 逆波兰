@@ -1,109 +1,117 @@
-class Solution {
-    Stack<String> stack = new Stack<>();
-    List<String> list = new LinkedList<>();
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
-    public int calculate(String s) {
-        // empty space
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != ' ') {
+class  man{
+  static Stack<String> stack=new Stack<String>();
+ static    List<String>list=new LinkedList<>();
+    public static void main(String[] args) {
+        String s="0-2147483647";
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i <s.length() ; i++) {
+            if (s.charAt(i)!=' ')
+            {
                 sb.append(s.charAt(i));
             }
         }
-        s = sb.toString();
-        reversePolish(s);
-        for (String s1 : list) {
-            System.out.print(s1 + " ");
+        String ss=sb.toString();
+
+        String tmp;
+        for (int i = 0; i <ss.length() ; i++) {
+         String a=String.valueOf(s.charAt(i));
+              if (a.equals('('))
+              {
+                  stack.push(a);
+              }else if (a.equals(')'))
+              {
+                  while (!stack.isEmpty()&&!stack.peek().equals('('))
+                  {
+                    list.add(stack.pop());
+                  }
+              }else if (Character.isDigit(s.charAt(i)))
+              {
+                  String str="";
+                        while (i<ss.length()&&Character.isDigit(s.charAt(i)))
+                        {
+                            str+=String.valueOf(s.charAt(i));
+                            i++;
+                        }
+                        if (i!=ss.length())
+                        {
+                            i--;
+                        }
+                        list.add(str);
+              }else{
+                  if (!stack.isEmpty()&&getProperty(tmp=(stack.peek()))>getProperty(a))
+                  {
+                      list.add(tmp);
+                      stack.pop();
+                  }
+                  stack.push(a);
+              }
+              while (!stack.isEmpty())
+              {
+                  list.add(stack.pop());
+              }
+
         }
-        System.out.println("");
-        return cal();
+        String[] strings = list.toArray(new String[list.size()]);
+        int i = evalRPN(strings);
 
     }
+    public static  int evalRPN(String[] tokens)
+    {
+        Stack<Integer>stack=new Stack<>();
+        for (int i = 0; i <tokens.length ; i++) {
+            String s=tokens[i];
+            int b=0;
+            int a=0;
+            int tmp=0;
+           if (s.equals("+"))
+           {
+               b=stack.pop();
+               a=stack.pop();
+               tmp=a+b;
+               stack.push(tmp);
 
-    public void reversePolish(String s) {
-        // 转换为逆波兰表达式
-        for (int i = 0; i < s.length(); i++) {
-            String c = String.valueOf(s.charAt(i));
-            switch (c) {
-                case "+":
-                case "-":
-                    while (!stack.isEmpty() && !stack.peek().equals("(")) {
-                        list.add(stack.pop());
-                    }
-                    stack.push(c);
-                    break;
-                case "*":
-                case "/":
-                    while (!stack.isEmpty() && !sentry(stack.peek())) {
-                        list.add(stack.pop());
-                    }
-                    stack.push(c);
-                    break;
-                case "(":
-                    stack.push(c);
-                    break;
-                case ")":
-                    while (!stack.peek().equals("(")) {
-                        list.add(stack.pop());
-                    }
-                    stack.pop();
-                    break;
-                default:
-                    String str = "";
-                    while (i < s.length() && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                        str += String.valueOf(s.charAt(i));
-                        i++;
-                    }
-                    if (i != s.length()) {
-                        i--;
-                    }
-                    list.add(str);
-            }
-        }
-        while (!stack.isEmpty()) {
-            list.add(stack.pop());
-        }
+           }else if (s.equals("-"))
+           {
+               b=stack.pop();
+               a=stack.pop();
+               tmp=a-b;
+               stack.push(tmp);
 
+           }else if (s.equals("*"))
+           {
+               b=stack.pop();
+               a=stack.pop();
+               tmp=a*b;
+               stack.push(tmp);
+
+           }else if (s.equals("/"))
+           {
+
+               b=stack.pop();
+               a=stack.pop();
+               tmp=a/b;
+               stack.push(tmp);
+           }else{
+                    stack.push(Integer.parseInt(s));
+           }
+        }
+        return  stack.pop();
     }
-
-    public boolean sentry(String s) {
-        if ("(".equals(s)) {
-            return true;
-        } else if ("*".equals(s) || "/".equals(s)) {
-            return false;
-        } else {
-            return true;
+    public static int getProperty(String op)
+    {
+        switch (op){
+            case "+":
+            case"-":
+                return 1;
+            case "*":
+            case "/":
+                return 2;
+            default:
+                return  0;
         }
-    }
-
-    public int cal() {
-        // 计算逆波兰表达式
-        Stack<Integer> value = new Stack<>();
-        for (String s : list) {
-            switch (s) {
-                case "+":
-                    value.push(value.pop() + value.pop());
-                    break;
-                case "-":
-                    Integer temp = value.pop();
-                    value.push(value.pop() - temp);
-                    break;
-                case "*":
-                    value.push(value.pop() * value.pop());
-                    break;
-                case "/":
-                    Integer divide = value.pop();
-                    value.push(value.pop() / divide);
-                    break;
-                default:
-                    value.push(Integer.valueOf(s));
-            }
-        }
-        return value.pop().intValue();
     }
 }
-
-作者：avatarannappa
-链接：https://leetcode-cn.com/problems/basic-calculator-ii/solution/ni-bo-lan-biao-da-shi-by-avatarannappa/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
