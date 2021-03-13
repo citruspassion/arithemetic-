@@ -36,6 +36,107 @@ hashmap的负载因子0.75原因
 　中间有个差值7可以防止链表和树之间频繁的转换。假设一下，如果设计成链表个数超过8则链表转换成树结构，链表个数小于8则树结构转换成链表，
 如果一个HashMap不停的插入、删除元素，链表个数在8左右徘徊，就会频繁的发生树转链表、链表转树，效率会很低。
 
+class MyHashSet {
 
+    int[] numArr;
+    /** Initialize your data structure here. */
+    public MyHashSet() {
+        numArr = new int[31251];
+    }
+
+    public void add(int key) {
+        setKey(key, true);
+    }
+
+    public void remove(int key) {
+        setKey(key, false);
+    }
+
+    /** Returns true if this set contains the specified element */
+    public boolean contains(int key) {
+        return getKey(key);
+    }
+
+    private void setKey(int key, boolean add) {
+        int idx = key >> 5;
+        int bitIdx = key % 32;
+        if(add) {
+            numArr[idx] |= 1 << bitIdx;
+        } else {
+            numArr[idx] &= (~(1 << bitIdx));
+        }
+    }
+
+    private boolean getKey(int key) {
+        int idx = key >> 5;
+        int bitIdx = key % 32;
+        return (numArr[idx] >> bitIdx & 1) == 1;
+    }
+}
+设哈希表的大小为 \textit{base}base，则可以设计一个简单的哈希函数：\text{hash}(x) = x \bmod \textit{base}hash(x)=xmodbase。
+
+我们开辟一个大小为 \textit{base}base 的数组，数组的每个位置是一个链表。当计算出哈希值之后，就插入到对应位置的链表当中。
+
+由于我们使用整数除法作为哈希函数，为了尽可能避免冲突，应当将取质数更好
+
+
+class MyHashSet {
+    private static final int BASE = 769;
+    private LinkedList[] data;
+
+    /** Initialize your data structure here. */
+    public MyHashSet() {
+        data = new LinkedList[BASE];
+        for (int i = 0; i < BASE; ++i) {
+            data[i] = new LinkedList<Integer>();
+        }
+    }
+    
+    public void add(int key) {
+        int h = hash(key);
+        Iterator<Integer> iterator = data[h].iterator();
+        while (iterator.hasNext()) {
+            Integer element = iterator.next();
+            if (element == key) {
+                return;
+            }
+        }
+        data[h].offerLast(key);
+    }
+    
+    public void remove(int key) {
+        int h = hash(key);
+        Iterator<Integer> iterator = data[h].iterator();
+        while (iterator.hasNext()) {
+            Integer element = iterator.next();
+            if (element == key) {
+                data[h].remove(element);
+                return;
+            }
+        }
+    }
+    
+    /** Returns true if this set contains the specified element */
+    public boolean contains(int key) {
+        int h = hash(key);
+        Iterator<Integer> iterator = data[h].iterator();
+        while (iterator.hasNext()) {
+            Integer element = iterator.next();
+            if (element == key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static int hash(int key) {
+        return key % BASE;
+    }
+}
+
+作者：LeetCode-Solution
+链接：https://leetcode-cn.com/problems/design-hashset/solution/she-ji-ha-xi-ji-he-by-leetcode-solution-xp4t/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 
