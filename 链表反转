@@ -1,0 +1,54 @@
+  public ListNode reverseBetween(ListNode head, int m, int n) {
+        //将不符合规定的链表返回
+        if(head==null||head.next==null){
+            return head;
+        }
+        int len=getLength(head);
+        if(m<1||n>len||m>n){
+            return head;
+        }
+        //查找preM&nextN
+        ListNode preM=null;
+        ListNode nextN=null;
+        ListNode node1=head;//用于遍历head指针
+        int k=0;
+        while(node1!=null){
+            k++;
+            preM=k==(m-1)?node1:preM;
+            nextN=k==(n+1)?node1:nextN;
+            node1=node1.next;
+        }
+        
+        node1=preM==null?head:preM.next;/*若由上面的式子得出preM为空，则
+        局部链表开头即为head，不为空，则preM存在；*/
+        ListNode cur=node1.next;/*代表局部链表的第二个节点，因为我
+        们要从第二个节点开始向局部链表开始的节点插；*/
+        node1.next=nextN;/*这个操作就是将局部链表的开始节点
+        与局部链表最后节点的下一个节点相连接；*/
+        ListNode next=null;//用于保存下一个节点
+        while(cur!=nextN){
+            next=cur.next;//保存cur的下一个节点，
+            cur.next=node1;//将cur.next指向node1
+            node1=cur;//将cur赋给node1，此时cur已经成功成为node的头节点
+            cur=next;//继续向后遍历，将一开始保存的节点重新赋给cur
+        }
+        if(preM!=null){/*如果我们发现preM不为空，即局部链
+        表开头不是整体链表的开头，就将preM与记录反转后链表的node1相连接;*/
+            preM.next=node1;
+            return head;
+        }
+        return node1;//若局部链表开头即是整体链表的开头，直接返回node1
+    }
+    //查看链表长度
+    public int getLength(ListNode head){
+        int n=0;
+        while(head!=null){
+            head=head.next;
+            n++;
+        }
+        return n;
+    }
+}
+————————————————
+版权声明：本文为CSDN博主「柚子味的快乐水」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_45787987/article/details/108465759
