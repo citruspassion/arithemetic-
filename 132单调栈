@@ -46,7 +46,9 @@ class Solution {
             /* 当当前值大于等于栈顶元素，则循环出栈并将值更新到2中使2为最大3的次小数（为1的选择留下广阔空间）
             * 然后将当前元素作为新的3。更新的结果是：3为当前遍历到的最大元素，2为小于当前3的最大元素。
             */
-            while(!stack.isEmpty() && nums[i] > stack.peek()) last = stack.pop();
+            while(!stack.isEmpty() && nums[i] > stack.peek()) 
+            {last = stack.pop();
+            }
             //当前值入栈作为新的备选3
             stack.push(nums[i]);
         }
