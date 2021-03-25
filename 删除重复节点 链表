@@ -1,0 +1,65 @@
+存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 没有重复出现 的数字。
+
+返回同样按升序排列的结果链表。
+
+ 
+
+示例 1：
+
+
+输入：head = [1,2,3,3,4,4,5]
+输出：[1,2,5]
+示例 2：
+
+
+输入：head = [1,1,1,2,3]
+输出：[2,3]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode();
+        ListNode tail = dummy;
+        while (head != null) {
+            // 进入循环时，确保了 head 不会与上一节点相同
+            if (head.next == null || head.val != head.next.val) {
+                tail.next = head;
+                tail = head;
+            }
+            // 如果 head 与下一节点相同，跳过相同节点
+            while (head.next != null && head.val == head.next.val) head = head.next;
+            head = head.next;
+        }
+        tail.next = null;
+        return dummy.next;
+    }
+}
+
+作者：AC_OIer
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/solution/tong-yong-shan-chu-zhong-fu-jie-dian-lia-od9g/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+   public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        if (head.val != head.next.val) {
+            //如果当前节点和下一个节点的值不相同
+            head.next = deleteDuplicates(head.next);
+            return head;
+        } else {
+            //如果当前节点和下一个节点的值相同，说明出现了重复的，要把它删除
+            while (head.next != null && head.val == head.next.val)
+                head = head.next;
+            return deleteDuplicates(head.next);
+        }
+    }
+
+作者：sdwwld
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/solution/di-gui-he-fei-di-gui-liang-chong-fang-sh-e9m3/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
