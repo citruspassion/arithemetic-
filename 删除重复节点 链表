@@ -63,3 +63,12 @@ class Solution {
 链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/solution/di-gui-he-fei-di-gui-liang-chong-fang-sh-e9m3/
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+如果 head.val != head.next.val ，说明头节点的值不等于下一个节点的值，所以当前的 head 节点必须保留；但是 head.next 节点要不要保留呢？我们还不知道，需要对 head.next 进行递归，即对 head.next 作为头节点的链表，去除值重复的节点。所以 head.next = self.deleteDuplicates(head.next).
+如果 head.val == head.next.val ，说明头节点的值等于下一个节点的值，所以当前的 head 节点必须删除；但是 head.next 节点要不要删除呢？我们还不知道，需要一直向后遍历寻找到与 head.val 不等的节点。与 head.val 相等的这一段链表都要删除，因此返回 deleteDuplicates(move);
+
+作者：fuxuemingzhu
+链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/solution/fu-xue-ming-zhu-di-gui-die-dai-yi-pian-t-wy0h/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
