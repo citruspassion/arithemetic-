@@ -1,0 +1,73 @@
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+       if(head == null || head.next == null) return head;
+       ListNode cur=head;
+        int count=0;
+        while(cur != null){ //计算链表长度
+    		count ++;
+    		cur = cur.next;
+    	}
+    	k = k % count;
+        if(k == 0)
+    		return head;
+
+
+     ListNode start = new ListNode(0);
+        start.next = head;
+        ListNode fast = start;
+        ListNode slow = start;
+        
+        for(int i=0;i<k;i++)
+        {
+            fast=fast.next;
+        }
+        while(fast.next!=null)
+        {
+            fast=fast.next;
+            slow=slow.next;
+        }
+        // 如给定链表1->2->3->4->5，k=2，则返回循环右移2个节点后的链表：4->5->1->2->3。
+
+    //思路：设置2个指针，前一个先向前移动k个节点，然后两个节点同步向前移，
+    //直到前一个指针到达链表末端，这时两个指针之间的部分就是需要循环移动到链表头的部分。
+    //slow ...k...fast null的局面
+    //start.next slow ...k...fast null
+    //start.next slow ...k...fast head 
+    //
+    start.next=slow.next;
+    fast.next=head;
+    slow.next=null;
+
+  return start.next;
+}
+}
+
+
+
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        int len = 1, index;
+        ListNode temp = head, newHead;
+        while (temp.next != null) { //计算链表长度len   //必须得。next!=null，不然等会temP.next会抱空指针
+            len++;
+            temp = temp.next;
+        }
+        temp.next = head; //将链表连接成循环链表
+        k %= len; //旋转链表每len次循环一次，因此计算k对len的取余，避免重复操作
+        index = len - k; //找到要断开循环链表的节点纪录链表新的头结点
+        while (index-- > 0) {
+            temp = temp.next;
+        }
+        newHead = temp.next;
+        temp.next = null; //断开循环链表
+        return newHead;
+    }
+}
+
+
+
+
