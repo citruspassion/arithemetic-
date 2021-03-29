@@ -1,0 +1,81 @@
+输入：00000000000000000000000000001011
+输出：3
+解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
+示例 2：
+
+输入：00000000000000000000000010000000
+输出：1
+解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 '1'。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/number-of-1-bits
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+public class Solution {
+    // you need to treat n as an unsigned value
+     public int hammingWeight(int n) {
+        int count =0;
+        while(n!=0){
+            if((n&1)==1){
+            count++;
+            }
+            n>>>=1;
+            
+        }
+        return count;
+    }
+
+    }
+    
+    
+    
+    
+    翻转
+    123-321
+    
+    class Solution {
+public:
+    int reverse(int x) {
+        int y = 0; // y用来承接翻转后的整数
+        while (x != 0) {
+            if (y > 214748364 || y < -214748364) return 0; // 溢出，那么输出为0(这是题目要求)
+            y = y * 10 + x % 10; // y在变化的同时x也在变化，效率高
+            // x % 10的目的是得到个位的数值
+            x = x / 10;   // x / 10相当于“右移移位运算”，是地板除。
+        }
+        return y; // 得到结果
+    }
+};
+
+
+class Solution {
+    public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false; // 负数就是false
+        long long y = 0; // 防止溢出
+        int flag = x; // 留一个做比较
+        while(x != 0){  // 常见处理，如上面的力扣7.整数反转
+            y = y * 10 + x % 10;
+            x = x / 10;
+        }
+        return flag == y;  // 写成逻辑式，判断是否回文
+    }
+};
+
+
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+  int  num=0;
+ for(int i=0;i<32;i++)
+ {
+     num=num*2+n%2;
+     n/=2;
+ }
+  return num;
+    }
+}
+作者：threesr
+链接：https://leetcode-cn.com/problems/reverse-bits/solution/ju-yi-fan-san-yi-wen-dai-ni-shua-san-dao-ubat/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
