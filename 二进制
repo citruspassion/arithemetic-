@@ -79,3 +79,21 @@ public class Solution {
 链接：https://leetcode-cn.com/problems/reverse-bits/solution/ju-yi-fan-san-yi-wen-dai-ni-shua-san-dao-ubat/
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int r=0;
+for (int i = 0; i < 32 ; i++){
+            r <<= 1;
+            if ((n & 1) == 1){
+                r++;
+            }
+            n >>= 1;
+        }
+        return r;
+
+    }
+}
