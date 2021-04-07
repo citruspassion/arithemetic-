@@ -36,6 +36,56 @@ hashmap的负载因子0.75原因
 　中间有个差值7可以防止链表和树之间频繁的转换。假设一下，如果设计成链表个数超过8则链表转换成树结构，链表个数小于8则树结构转换成链表，
 如果一个HashMap不停的插入、删除元素，链表个数在8左右徘徊，就会频繁的发生树转链表、链表转树，效率会很低。
 
+
+
+
+
+
+
+ 
+ 
+ 
+ ConcurrentHashMap是J.U.C的重要成员，它是HashMap的一个线程安全的、支持高效并发的版本
+ 在理想状态下，ConcurrentHashMap 可以支持 16 个线程执行并发写操作
+ HashMap用一个指针数组来做分散key，当一个key被加入时，
+ 通过Hash算法算出key所在的下标，然后放键值对
+ 但是
+ 如果有两个不同的key因为哈希算法正巧放在了同一地址，那就发生冲突，为了解决这个就采用数组+链表
+
+假如我们的桶很小，但是数非常的多，那难免会导致冲突频发
+于是一个O(1)的查找算法，性能变成了O(n)
+而且当多线程的时候，我们很容易形成环链   因为
+当HashMap中的元素个数超过数组大小(数组总大小length，不是数组中个数size)*loadFactor时，
+就会进行数组扩容，loadFactor的默认值为0.75，这是一个折中的取值。也就是说，默认情况下，数组大小为16，
+那么当HashMap中元素个数超过16*0.75=12（这个值就是代码中的threshold值，也叫做临界值）的时候，就把数组的大小扩展为 2*16=32，即扩大一倍
+也就是扩容就是赋值原来的值，建一个新的空间，再放进去
+当多个线程同时对这个HashMap进行put操作，当有线程觉得内存容量不够，需要进行扩容时，多个线程会同时执行resize操作
+一旦扩容，就会把链表的顺序改变，将元素从头插入
+
+假如我们的桶为2
+分为1号和2号
+1号存放着a，b  也就是链表  a->b->null
+当多线程扩容，就变成 1，2，3，4桶
+1下属 链表 就变成了b->a->null
+于是就形成了环链
+ConcurrentHashMap 增加了两个属性  分别是 segmentMask 和 segmentShift
+
+而这个segment就继承了 ReentrantLock
+也就是每一个segment对象都可以充当锁，每个segment守护几个桶，也就是说Map分为N个Segment
+
+另外segment具有计数器，也就是HashEntry 对象的个数，不在整体ConcurrentHashMap用计数器的意思就是
+更新计数器，不用像hashtable一样锁整体
+
+HashEntry用来封装具体的键值对，
+分4个属性是key，value，hash,next
+key，hash next是final  只有value被volatile修饰，
+因此HashEntry对象几乎是不可变的，能保证读取到最新的值
+这是ConcurrentHashmap读操作不需要加锁的原因
+
+
+同时 与hashmap不同的，hashmap允许null  的键值对，而hashmap,hashtable不允许
+ 
+
 class MyHashSet {
 
     int[] numArr;
