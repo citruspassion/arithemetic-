@@ -1,0 +1,78 @@
+实现 strStr() 函数。
+
+给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。
+
+ 
+
+说明：
+
+当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+
+对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与 C 语言的 strstr() 以及 Java 的 indexOf() 定义相符。
+
+ 
+
+示例 1：
+
+输入：haystack = "hello", needle = "ll"
+输出：2
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/implement-strstr
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+class Solution {
+    public int strStr(String s, String p) {
+        if(p.isEmpty()){
+            return 0;
+        }
+            int n=s.length();
+            int m=p.length();
+         
+            char []ss=s.toCharArray();
+            char []pp=p.toCharArray();
+            int next[]=new int[m];
+            cal(next,pp,m);
+            int k=-1;
+            for(int i=0;i<n;i++){
+                while(k>-1&&ss[i]!=pp[k+1]){
+                    k=next[k];
+                    //这里是假如不匹配，next[k]代表什么，代表前k位的前缀后缀数，比如
+                    //aabaabaacf
+                    //aabaacf就回到了b的位置，很明显我们到c不相同，那么c之前的前缀数是2，那么仔细一看b就在2号位，我们接着从这开始比较，如果不同就接着回溯
+                    //如果相同就ok
+                }
+                if(ss[i]==pp[k+1]){
+                    k+=1;
+                }
+                if(k==m-1){//如果匹配顺利进行，长度达到了该有的，那么直接返回就行了
+                    return i-m+1;
+                }
+            }
+         
+return -1;
+           
+    }
+ 指针 ki
+      aabaacf
+      0123456
+      #1#12##
+    不存在当-1，
+    public void cal(int arr[],char cha[],int len ){
+        arr[0]=-1;
+        int k=-1;
+        for(int i=1;i<=len-1;i++){
+            while(k>-1&&cha[k+1]!=cha[i]){
+                k=arr[k];//不相等
+                //比如第一次不等发生在ab
+                //那就开始回溯，一直回到相等或者开头的位置
+                //这里是k=1 arr[1]=0,回到了0位，然后接着arr[0]=-1 跳出循环
+            }
+            if(cha[k+1]==cha[i]){
+                k+=1;  //相等就指针都往前走
+            }
+            arr[i]=k;  //并记录下next
+        }
+    }
+}
