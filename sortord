@@ -5,12 +5,117 @@ public static void insertSort(int []arr)
   for (int i=1;i<array.lenth;i++)
   {
           int temp=arr[i];
-   for(int j=0;j>0&&arr[j-1]>temp;j--)
+   for(int j=i;j>0&&arr[j-1]>temp;j--)
    {
             arr[j]=arr[j-1];
             }
      arr[j]=temp;
      }
      }
-     
-  
+     ===================
+     for(int i=0;i<n-1;i++){
+     for(int j=0;j<n-1-i;j++{
+          if(arr[j+1]>arr[j])
+        swap()
+     }}
+  =======================
+for(int i=0;i<n-1;i++){
+int minIndex=i;
+int min=arr[i];
+for(int j=i;j<n;j++){
+   if(min>arr[j]){
+   min=arr[j];
+   minIndex=j;
+   }
+}
+if(i!=minIndex){
+arr[minIndex]=arr[i];
+arr[i]=min;
+}
+}
+=======================================
+for(int gap=n/2;gap>0;gap/=2){
+
+for (int i=gap;i<n;i++)
+  {
+          int temp=arr[i];
+   for(int j=i;j>gap&&arr[j-gap]>temp;j-=gap)
+   {
+            arr[j]=arr[j-gap];
+            }
+     arr[j]=temp;
+     }
+     }
+     ==============================================
+     public static void xx(int arr[],int start,int n){
+     for(int i=n/2-1;i>=0;i--)
+     {
+     xx1(arr,i,n-1);
+       for(int i=n-1;i>0;i--){
+       swap(arr[0],arr[i]);
+       xx1(arr,0,i-1);}
+        }
+}
+}
+public static void xx1(int arr[],int start,int end){
+int c=start;
+int l=2*c+1;
+int tep=arr[c];
+for(;l<=end;c=l,l=2*l+1){\
+if(arr[l]<arr[l+1]){
+
+l++;}
+if(tmp>=arr[l]){
+break;}else{
+arr[c]=arr[l];
+arr[l]=tmp;
+}
+
+tmp
+l l+1
+=============================================================
+public static void sort(int arr[],int left ,int right){
+int mid=(left+right)/2;
+if(left<right){
+sort(arr,left.mid);
+sort(arr,mid+1,right);
+merge(arr,left,mid,right);
+
+}
+public static void merge(int arr[],int left ,int mid,int right){
+int i=left;
+int j=mid+1;
+int k=0;
+int b[]=new int [arr.length];
+while(i<=mid&&j<=right){
+if(arr[i]<arr[j]){
+b[k++]=arr[i++];}else{
+b[k++]=arr[j++];}
+if(i==mid+1){while(j<=end)b[k++]=arr[j++];}
+if(j==right+1){while(i<=mid)b[k++]=arr[i++];}
+
+b----arr
+}
+}
+
+=========================================
+public static void xx(int arr[],int start ,int end){
+int l=start;
+int r=end;
+int pivot=arr[l];
+if(l>=r){break;}
+         while(l<r){
+       while(l<r&&arr[r]>=piovt){
+          r--;
+       }
+       if(l<r){
+       arr[l]=arr[r];}
+ }
+ while(l<r&&arr[l]<=pivot) l++;
+ if(l<r) arr[r]=arr[l];
+ if(l>=r) arr[l]=piovt;
+}
+xx(arr,start,r-1);
+xx(arr,r+1,end);
+}
+
