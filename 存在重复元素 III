@@ -17,6 +17,33 @@
 
 输入：nums = [1,5,9,1,5,9], k = 2, t = 3
 输出：false
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        int n = nums.length;
+        TreeSet<Long> ts = new TreeSet<>();
+        for (int i = 0; i < n; i++) {
+            Long u = nums[i] * 1L;
+            // 从 ts 中找到小于等于 u 的最大值（小于等于 u 的最接近 u 的数）
+            Long l = ts.floor(u); 
+            // 从 ts 中找到大于等于 u 的最小值（大于等于 u 的最接近 u 的数）
+            Long r = ts.ceiling(u); 
+            if(l != null && u - l <= t) return true;
+            if(r != null && r - u <= t) return true;
+            // 将当前数加到 ts 中，并移除下标范围不在 [max(0, i - k), i) 的数（维持滑动窗口大小为 k）
+            ts.add(u);
+            if (i >= k) ts.remove(nums[i - k] * 1L);
+        }
+        return false;
+    }
+}
+
+作者：AC_OIer
+链接：https://leetcode-cn.com/problems/contains-duplicate-iii/solution/gong-shui-san-xie-yi-ti-shuang-jie-hua-d-dlnv/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
  class Solution {
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         if(k==10000) return false;
